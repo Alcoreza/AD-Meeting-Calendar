@@ -1,0 +1,16 @@
+{
+    "name": "alcoreza/ad-meetingcalendar",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Alcoreza",
+            "email": "202310642@fit.edu.ph"
+        }
+    ],
+    "scripts": {
+        "start": "php -S localhost:8000 router.php"
+    },
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
+}

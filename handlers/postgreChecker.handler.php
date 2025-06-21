@@ -1,6 +1,8 @@
 <?php
 
-$host = "host.docker.internal"; 
+require_once BASE_PATH . '/utils/envSetter.util.php';
+
+$host = "host.docker.internal";
 $port = "5112";
 $username = "user";
 $password = "password";
