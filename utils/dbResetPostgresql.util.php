@@ -3,13 +3,13 @@
 declare(strict_types=1);
 
 // 1) Composer autoload
-require 'vendor/autoload.php';
+require VENDOR_PATH . 'autoload.php';
 
 // 2) Composer bootstrap
 require 'bootstrap.php';
 
 // 3) envSetter
-require_once BASE_PATH . '/utils/envSetter.util.php';
+require_once UTILS_PATH . 'envSetter.util.php';
 
 $dsn = "pgsql:host={$pgConfig['host']};port={$pgConfig['port']};dbname={$pgConfig['dbname']}";
 $pdo = new PDO($dsn, $pgConfig['user'], $pgConfig['pass'], [
