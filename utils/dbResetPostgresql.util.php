@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 // 1) Composer autoload
-require VENDOR_PATH . 'autoload.php';
+require VENDORS_PATH . '/autoload.php';
 
 // 2) Composer bootstrap
 require 'bootstrap.php';
