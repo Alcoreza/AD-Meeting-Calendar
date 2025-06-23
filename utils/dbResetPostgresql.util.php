@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-// 1) Composer autoload
-require VENDORS_PATH . '/autoload.php';
-
 // 2) Composer bootstrap
 require 'bootstrap.php';
+
+// 1) Composer autoload
+require VENDOR_PATH . 'autoload.php';
 
 // 3) envSetter
 require_once UTILS_PATH . 'envSetter.util.php';
