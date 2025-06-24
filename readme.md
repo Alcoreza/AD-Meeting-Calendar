@@ -55,8 +55,8 @@ A simple Meeting Calendar app made with PHP that uses a database like MongoDB or
 
 ### Key Components
 
-Meeting Management: Add, edit, delete, and see meetings with full details
-Docker Setup: Simple to run and set up for development using Docker
+- Meeting Management: Add, edit, delete, and see meetings with full details
+- Docker Setup: Simple to run and set up for development using Docker
 
 #### Language
 
