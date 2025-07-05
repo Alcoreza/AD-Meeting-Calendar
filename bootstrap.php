@@ -10,6 +10,6 @@ if (!defined('HANDLERS_PATH'))
 if (!defined('DUMMIES_PATH'))
     define('DUMMIES_PATH', BASE_PATH . '/staticDatas/dummies/');
 if (!defined('LOGIN_URL'))
-    define('LOGIN_URL', BASE_PATH . '/pages/Login/login.php');
+    define('LOGIN_URL', '/pages/Login/login.php');
 chdir(BASE_PATH);
 

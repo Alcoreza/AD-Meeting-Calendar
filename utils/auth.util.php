@@ -34,6 +34,7 @@ class Auth
 
         require 'bootstrap.php';
         require_once UTILS_PATH . 'envSetter.util.php';
+        global $pgConfig;
 
         $dsn = "pgsql:host={$pgConfig['host']};port={$pgConfig['port']};dbname={$pgConfig['dbname']}";
         $pdo = new PDO($dsn, $pgConfig['user'], $pgConfig['pass'], [

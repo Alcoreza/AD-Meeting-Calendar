@@ -16,7 +16,6 @@ $pdo = new PDO($dsn, $pgConfig['user'], $pgConfig['pass'], [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
 ]);
 
-echo "\nDropping old tables…\n";
 foreach ([
     'meeting_users',
     'meetings',
@@ -34,14 +33,12 @@ $modelFiles = [
 ];
 
 foreach ($modelFiles as $file) {
-    echo "Applying schema from {$file}…\n";
     $sql = file_get_contents($file);
     if ($sql === false) {
         throw new RuntimeException("❌ Could not read {$file}");
     } else {
         $pdo->exec($sql);
-        echo "✓ Successfully applied schema: {$file}<br>";
     }
 }
 
-echo "\n✅ PostgreSQL database migrated successfully.\n";
+$GLOBALS['migrateStatus'] = "✅ PostgreSQL database migrated successfully.";

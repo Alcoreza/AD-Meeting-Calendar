@@ -3,51 +3,86 @@ session_start();
 require 'bootstrap.php';
 require_once UTILS_PATH . 'auth.util.php';
 
-if (!Auth::check()) {
-    ?>
-    <!DOCTYPE html>
-    <html>
+// ✅ Run DB checkers first
+include HANDLERS_PATH . 'mongodbChecker.handler.php';
+include HANDLERS_PATH . 'postgreChecker.handler.php';
+// Run Seeder and Migrator
+include_once UTILS_PATH . 'dbSeederPostgresql.util.php';
+include_once UTILS_PATH . 'dbMigratePostgresql.util.php';
 
-    <head>
-        <title>Login Required</title>
-    </head>
+// ✅ Handle Login Logic before output
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
+    $username = $_POST['username'] ?? '';
+    $password = $_POST['password'] ?? '';
 
-    <body>
-        <h2>You are not logged in.</h2>
-        <a href="/pages/Login/login.php"><button>Login</button></a>
-    </body>
+    if (Auth::login($username, $password)) {
+        header('Location: index.php'); // Redirect to avoid resubmission
+        exit;
+    } else {
+        $_SESSION['error'] = 'Invalid username or password.';
+        header('Location: index.php');
+        exit;
+    }
+}
 
-    </html>
-    <?php
+// ✅ Handle Logout before output
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
+    Auth::logout();
+    header('Location: index.php');
     exit;
 }
 
-$user = Auth::user();
-
-// DB checkers
-include HANDLERS_PATH . 'mongodbChecker.handler.php';
-include HANDLERS_PATH . 'postgreChecker.handler.php';
-include UTILS_PATH . 'dbSeederPostgresql.util.php';
-include UTILS_PATH . 'dbMigratePostgresql.util.php';
+// ✅ Now safe to output HTML
 ?>
-
 <!DOCTYPE html>
 <html>
 
 <head>
-    <title>Dashboard</title>
+    <title>Dashboard / Login</title>
 </head>
 
 <body>
 
-    <h1>Welcome, <?= htmlspecialchars($user['first_name']) ?>!</h1>
-    <p>You are logged in as <strong><?= htmlspecialchars($user['role']) ?></strong>.</p>
-
     <h3>Database Status:</h3>
-    <p>✅ Connected to MongoDB successfully.</p>
-    <p>✔️ PostgreSQL Connection</p>
+    <p><?= $mongoStatus ?? 'MongoDB check not available' ?></p>
+    <p><?= $pgStatus ?? 'PostgreSQL check not available' ?></p>
 
-    <p><a href="/logout.php"><button>Logout</button></a></p>
+    <h3>Seeder & Migrator Status:</h3>
+    <p><?= $GLOBALS['seederStatus'] ?? 'Seeder not run' ?></p>
+    <p><?= $GLOBALS['migrateStatus'] ?? 'Migrator not run' ?></p>
+
+    <hr>
+
+    <?php if (!Auth::check()): ?>
+        <h2>Login</h2>
+
+        <?php if (!empty($_SESSION['error'])): ?>
+            <p style="color:red"><?= $_SESSION['error'] ?></p>
+            <?php unset($_SESSION['error']); ?>
+        <?php endif; ?>
+
+        <form method="POST">
+            <label for="username">Username:</label><br>
+            <input name="username" type="text" required><br><br>
+
+            <label for="password">Password:</label><br>
+            <input name="password" type="password" required><br><br>
+
+            <button type="submit" name="login">Login</button>
+        </form>
+
+    <?php else:
+        $user = Auth::user();
+        ?>
+
+        <h1>Welcome, <?= htmlspecialchars($user['first_name']) ?>!</h1>
+        <p>You are logged in as <strong><?= htmlspecialchars($user['role']) ?></strong>.</p>
+
+        <form method="POST">
+            <button name="logout" type="submit">Logout</button>
+        </form>
+
+    <?php endif; ?>
 
 </body>
 

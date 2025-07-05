@@ -16,12 +16,10 @@ $pdo = new PDO($dsn, $pgConfig['user'], $pgConfig['pass'], [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
 ]);
 
-$users = require_once DUMMIES_PATH . '/users.staticData.php';
+$users = require_once DUMMIES_PATH . 'users.staticData.php';
 
-echo "Truncating users table…\n";
 $pdo->exec("TRUNCATE TABLE users RESTART IDENTITY CASCADE;");
 
-echo "Seeding users…<br>";
 
 $stmt = $pdo->prepare("
     INSERT INTO users (username, role, first_name, last_name, password)
@@ -38,4 +36,4 @@ foreach ($users as $u) {
     ]);
 }
 
-echo "\n✅ PostgreSQL seeding complete!<br>";
+$GLOBALS['seederStatus'] = "✅ PostgreSQL seeding complete!";
