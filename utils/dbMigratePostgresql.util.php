@@ -16,7 +16,7 @@ $pdo = new PDO($dsn, $pgConfig['user'], $pgConfig['pass'], [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
 ]);
 
-echo "Dropping old tables…\n";
+echo "\nDropping old tables…\n";
 foreach ([
     'meeting_users',
     'meetings',
@@ -40,7 +40,7 @@ foreach ($modelFiles as $file) {
         throw new RuntimeException("❌ Could not read {$file}");
     } else {
         $pdo->exec($sql);
-        echo "✓ Successfully applied schema: {$file}\n";
+        echo "✓ Successfully applied schema: {$file}<br>";
     }
 }
 

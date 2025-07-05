@@ -21,7 +21,7 @@ $users = require_once DUMMIES_PATH . '/users.staticData.php';
 echo "Truncating users table…\n";
 $pdo->exec("TRUNCATE TABLE users RESTART IDENTITY CASCADE;");
 
-echo "Seeding users…\n";
+echo "Seeding users…<br>";
 
 $stmt = $pdo->prepare("
     INSERT INTO users (username, role, first_name, last_name, password)
@@ -38,4 +38,4 @@ foreach ($users as $u) {
     ]);
 }
 
-echo "\n✅ PostgreSQL seeding complete!\n";
+echo "\n✅ PostgreSQL seeding complete!<br>";
