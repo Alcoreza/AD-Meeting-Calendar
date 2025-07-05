@@ -18,6 +18,9 @@ $pdo = new PDO($dsn, $pgConfig['user'], $pgConfig['pass'], [
 
 $users = require_once DUMMIES_PATH . '/users.staticData.php';
 
+echo "Truncating users table…\n";
+$pdo->exec("TRUNCATE TABLE users RESTART IDENTITY CASCADE;");
+
 echo "Seeding users…\n";
 
 $stmt = $pdo->prepare("
