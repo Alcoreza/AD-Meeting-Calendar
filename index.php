@@ -10,29 +10,6 @@ include HANDLERS_PATH . 'postgreChecker.handler.php';
 include_once UTILS_PATH . 'dbSeederPostgresql.util.php';
 include_once UTILS_PATH . 'dbMigratePostgresql.util.php';
 
-// ✅ Handle Login Logic before output
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
-    $username = $_POST['username'] ?? '';
-    $password = $_POST['password'] ?? '';
-
-    if (Auth::login($username, $password)) {
-        header('Location: index.php'); // Redirect to avoid resubmission
-        exit;
-    } else {
-        $_SESSION['error'] = 'Invalid username or password.';
-        header('Location: index.php');
-        exit;
-    }
-}
-
-// ✅ Handle Logout before output
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
-    Auth::logout();
-    header('Location: index.php');
-    exit;
-}
-
-// ✅ Now safe to output HTML
 ?>
 <!DOCTYPE html>
 <html>
@@ -61,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
             <?php unset($_SESSION['error']); ?>
         <?php endif; ?>
 
-        <form method="POST">
+        <form method="POST" action="/handlers/auth.handler.php">
             <label for="username">Username:</label><br>
             <input name="username" type="text" required><br><br>
 
