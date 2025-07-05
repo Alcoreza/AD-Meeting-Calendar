@@ -14,7 +14,7 @@ if (!Auth::check()) {
 
     <body>
         <h2>You are not logged in.</h2>
-        <a href="/login.php"><button>Login</button></a>
+        <a href="/pages/Login/login.php"><button>Login</button></a>
     </body>
 
     </html>
