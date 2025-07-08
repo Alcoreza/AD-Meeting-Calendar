@@ -13,6 +13,6 @@ if (Auth::login($username, $password)) {
     exit;
 } else {
     $_SESSION['error'] = 'Invalid username or password.';
-    header('Location: ' . LOGIN_URL);
+    header('Location: /index.php');
     exit;
 }

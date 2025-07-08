@@ -17,6 +17,9 @@ $pdo = new PDO($dsn, $pgConfig['user'], $pgConfig['pass'], [
 ]);
 
 $users = require_once DUMMIES_PATH . 'users.staticData.php';
+if (!$users || !is_array($users)) {
+    die("❌ No users loaded from staticData.");
+}
 
 $pdo->exec("TRUNCATE TABLE users RESTART IDENTITY CASCADE;");
 
