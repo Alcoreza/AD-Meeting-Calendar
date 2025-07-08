@@ -1,65 +1,36 @@
 <?php
-session_start();
-require 'bootstrap.php';
-require_once UTILS_PATH . 'auth.util.php';
-
-// ✅ Run DB checkers first
-include HANDLERS_PATH . 'mongodbChecker.handler.php';
-include HANDLERS_PATH . 'postgreChecker.handler.php';
-// Run Seeder and Migrator
-include_once UTILS_PATH . 'dbSeederPostgresql.util.php';
-include_once UTILS_PATH . 'dbMigratePostgresql.util.php';
-
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 ?>
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Dashboard / Login</title>
+    <meta charset="UTF-8">
+    <title>System Status | AD-Meeting-Calendar</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 
 <body>
 
-    <h3>Database Status:</h3>
-    <p><?= $mongoStatus ?? 'MongoDB check not available' ?></p>
-    <p><?= $pgStatus ?? 'PostgreSQL check not available' ?></p>
+    <div class="header">
+        AD Meeting Calendar
+    </div>
 
-    <h3>Seeder & Migrator Status:</h3>
-    <p><?= $GLOBALS['seederStatus'] ?? 'Seeder not run' ?></p>
-    <p><?= $GLOBALS['migrateStatus'] ?? 'Migrator not run' ?></p>
+    <div class="container">
+        <h2>✅ System Status Check</h2>
+        <p>Below are the results of your database connection checks:</p>
 
-    <hr>
+        <div class="card">
+            <?php include_once "handlers/mongodbChecker.handler.php"; ?>
+            <?php include_once "handlers/postgreChecker.handler.php"; ?>
+        </div>
 
-    <?php if (!Auth::check()): ?>
-        <h2>Login</h2>
-
-        <?php if (!empty($_SESSION['error'])): ?>
-            <p style="color:red"><?= $_SESSION['error'] ?></p>
-            <?php unset($_SESSION['error']); ?>
-        <?php endif; ?>
-
-        <form method="POST" action="/handlers/auth.handler.php">
-            <label for="username">Username:</label><br>
-            <input name="username" type="text" required><br><br>
-
-            <label for="password">Password:</label><br>
-            <input name="password" type="password" required><br><br>
-
-            <button type="submit" name="login">Login</button>
-        </form>
-
-    <?php else:
-        $user = Auth::user();
-        ?>
-
-        <h1>Welcome, <?= htmlspecialchars($user['first_name']) ?>!</h1>
-        <p>You are logged in as <strong><?= htmlspecialchars($user['role']) ?></strong>.</p>
-
-        <form method="POST">
-            <button name="logout" type="submit">Logout</button>
-        </form>
-
-    <?php endif; ?>
+        <div style="margin-top: 30px;">
+            <a href="/pages/login/index.php" class="btn">Go to Login Page</a>
+        </div>
+    </div>
 
 </body>
 
