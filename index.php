@@ -3,66 +3,56 @@ session_start();
 require 'bootstrap.php';
 require_once UTILS_PATH . 'auth.util.php';
 
-include HANDLERS_PATH . 'mongodbChecker.handler.php';
-include HANDLERS_PATH . 'postgreChecker.handler.php';
+// Database checkers
+include_once HANDLERS_PATH . 'mongodbChecker.handler.php';
+include_once HANDLERS_PATH . 'postgreChecker.handler.php';
+
+// Seeder & Migrator
 include_once UTILS_PATH . 'dbMigratePostgresql.util.php';
 include_once UTILS_PATH . 'dbSeederPostgresql.util.php';
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard / Login</title>
+    <title>Dashboard Home</title>
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 
 <body>
     <div class="container">
-        <div class="status-section">
-            <h3>Database Status:</h3>
-            <p><?= $mongoStatus ?? 'MongoDB check not available' ?></p>
-            <p><?= $pgStatus ?? 'PostgreSQL check not available' ?></p>
+        <h1>Welcome to the Dashboard System</h1>
 
-            <h3>Seeder & Migrator Status:</h3>
-            <p><?= $GLOBALS['seederStatus'] ?? 'Seeder not run' ?></p>
-            <p><?= $GLOBALS['migrateStatus'] ?? 'Migrator not run' ?></p>
+        <!-- ✅ Styled Status Section -->
+        <div class="status-section">
+            <h3>📊 Database Status</h3>
+            <p><strong>MongoDB:</strong> <?= $mongoStatus ?? '<span style="color:red;">❌ Unchecked</span>' ?></p>
+            <p><strong>PostgreSQL:</strong> <?= $pgStatus ?? '<span style="color:red;">❌ Unchecked</span>' ?></p>
         </div>
 
-        <?php if (!Auth::check()): ?>
-            <h2>Login</h2>
+        <div class="status-section">
+            <h3>🛠 Seeder & Migrator Status</h3>
+            <p><strong>Seeder:</strong> <?= $GLOBALS['seederStatus'] ?? '<span style="color:red;">❌ Not run</span>' ?>
+            </p>
+            <p><strong>Migrator:</strong>
+                <?= $GLOBALS['migrateStatus'] ?? '<span style="color:red;">❌ Not run</span>' ?></p>
+        </div>
 
-            <?php if (!empty($_SESSION['error'])): ?>
-                <p class="error"><?= $_SESSION['error'] ?></p>
-                <?php unset($_SESSION['error']); ?>
+        <!-- ✅ Login/Logout Interface -->
+        <div class="status-section">
+            <?php if (!Auth::check()): ?>
+                <a href="/pages/login/index.php"><button>Login</button></a>
+            <?php else: ?>
+                <?php $user = Auth::user(); ?>
+                <p>👋 Hello, <strong><?= htmlspecialchars($user['first_name']) ?></strong>
+                    (<?= htmlspecialchars($user['role']) ?>)</p>
+                <form method="POST" action="/handlers/logout.handler.php">
+                    <button type="submit">Logout</button>
+                </form>
             <?php endif; ?>
-
-            <form method="POST" action="/handlers/auth.handler.php" class="login-form">
-                <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input name="username" type="text" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input name="password" type="password" required>
-                </div>
-
-                <button type="submit" name="login">Login</button>
-            </form>
-
-        <?php else:
-            $user = Auth::user();
-            ?>
-            <h1>Welcome, <?= htmlspecialchars($user['first_name']) ?>!</h1>
-            <p>You are logged in as <strong><?= htmlspecialchars($user['role']) ?></strong>.</p>
-
-            <form method="POST" action="/handlers/auth.handler.php">
-                <input type="hidden" name="logout" value="1">
-                <a href="pages/logout/index.php"><button>Logout</button></a>
-            </form>
-        <?php endif; ?>
+        </div>
     </div>
 </body>
 

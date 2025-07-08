@@ -16,10 +16,4 @@ if (Auth::login($username, $password)) {
     exit;
 }
 
-if (isset($_POST['logout'])) {
-    Auth::logout();
-    header('Location: /index.php'); // ✅ redirect to home after logout
-    exit;
-}
-
 
