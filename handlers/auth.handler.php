@@ -1,5 +1,5 @@
 <?php
-require_once 'bootstrap.php';
+require_once BOOTSTRAP_PATH;
 require_once UTILS_PATH . 'auth.util.php';
 
 Auth::init();
@@ -12,7 +12,6 @@ if (Auth::login($username, $password)) {
     header('Location: /index.php');
     exit;
 } else {
-    session_start();
     $_SESSION['error'] = 'Invalid username or password.';
     header('Location: ' . LOGIN_URL);
     exit;

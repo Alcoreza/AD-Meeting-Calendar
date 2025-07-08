@@ -32,7 +32,7 @@ class Auth
     {
         self::init();
 
-        require 'bootstrap.php';
+        require BOOTSTRAP_PATH;
         require_once UTILS_PATH . 'envSetter.util.php';
         global $pgConfig;
 

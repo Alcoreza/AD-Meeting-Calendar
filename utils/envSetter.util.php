@@ -5,6 +5,8 @@ require_once VENDOR_PATH . 'autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(BASE_PATH);
 $dotenv->load();
 
+global $pgConfig;
+
 $pgConfig = [
     'host' => $_ENV['PG_HOST'],
     'port' => $_ENV['PG_PORT'],
@@ -13,6 +15,7 @@ $pgConfig = [
     'pass' => $_ENV['PG_PASS']
 ];
 
+global $mongoConfig;
 $mongoConfig = [
     'uri' => $_ENV['MONGO_URI'],
 ];
