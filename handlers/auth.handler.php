@@ -9,10 +9,10 @@ $password = $_POST['password'] ?? '';
 
 // 🔐 Attempt login using Auth utility
 if (Auth::login($username, $password)) {
-    header('Location: /dashboard/index.php');
+    header('Location: /index.php');
     exit;
 } else {
-    $error = urlencode('Invalid username or password.');
-    header('Location: /pages/login/index.php?error=' . $error);
+    $_SESSION['error'] = 'Invalid username or password.';
+    header('Location: /index.php');
     exit;
 }
