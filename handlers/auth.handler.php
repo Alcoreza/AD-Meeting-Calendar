@@ -7,6 +7,9 @@ Auth::init();
 $username = $_POST['username'] ?? '';
 $password = $_POST['password'] ?? '';
 
+echo "Entered Username: '$username'<br>";
+echo "Entered Password: '$password'<br>";
+
 // 🔐 Attempt login using Auth utility
 if (Auth::login($username, $password)) {
     header('Location: /index.php');
@@ -16,3 +19,5 @@ if (Auth::login($username, $password)) {
     header('Location: /index.php');
     exit;
 }
+
+
