@@ -25,7 +25,6 @@ include_once UTILS_PATH . 'dbSeederPostgresql.util.php';
     <div class="container">
         <h1>Welcome to the Dashboard System</h1>
 
-        <!-- ✅ Styled Status Section -->
         <div class="status-section">
             <h3>📊 Database Status</h3>
             <p><strong>MongoDB:</strong> <?= $mongoStatus ?? '<span style="color:red;">❌ Unchecked</span>' ?></p>
@@ -40,7 +39,6 @@ include_once UTILS_PATH . 'dbSeederPostgresql.util.php';
                 <?= $GLOBALS['migrateStatus'] ?? '<span style="color:red;">❌ Not run</span>' ?></p>
         </div>
 
-        <!-- ✅ Login/Logout Interface -->
         <div class="status-section">
             <?php if (!Auth::check()): ?>
                 <a href="/pages/login/index.php"><button>Login</button></a>
