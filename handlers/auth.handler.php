@@ -6,10 +6,6 @@ Auth::init();
 
 $username = $_POST['username'] ?? '';
 $password = $_POST['password'] ?? '';
-
-echo "Entered Username: '$username'<br>";
-echo "Entered Password: '$password'<br>";
-
 // 🔐 Attempt login using Auth utility
 if (Auth::login($username, $password)) {
     header('Location: /index.php');
@@ -17,6 +13,12 @@ if (Auth::login($username, $password)) {
 } else {
     $_SESSION['error'] = 'Invalid username or password.';
     header('Location: /index.php');
+    exit;
+}
+
+if (isset($_POST['logout'])) {
+    Auth::logout();
+    header('Location: /index.php'); // ✅ redirect to home after logout
     exit;
 }
 

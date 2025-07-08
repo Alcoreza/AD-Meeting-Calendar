@@ -5,8 +5,9 @@ require_once UTILS_PATH . 'auth.util.php';
 
 include HANDLERS_PATH . 'mongodbChecker.handler.php';
 include HANDLERS_PATH . 'postgreChecker.handler.php';
-include_once UTILS_PATH . 'dbSeederPostgresql.util.php';
 include_once UTILS_PATH . 'dbMigratePostgresql.util.php';
+include_once UTILS_PATH . 'dbSeederPostgresql.util.php';
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -57,8 +58,9 @@ include_once UTILS_PATH . 'dbMigratePostgresql.util.php';
             <h1>Welcome, <?= htmlspecialchars($user['first_name']) ?>!</h1>
             <p>You are logged in as <strong><?= htmlspecialchars($user['role']) ?></strong>.</p>
 
-            <form method="POST">
-                <button name="logout" type="submit">Logout</button>
+            <form method="POST" action="/handlers/auth.handler.php">
+                <input type="hidden" name="logout" value="1">
+                <a href="pages/logout/index.php"><button>Logout</button></a>
             </form>
         <?php endif; ?>
     </div>
