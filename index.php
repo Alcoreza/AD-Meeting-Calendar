@@ -1,57 +1,37 @@
 <?php
 session_start();
-require 'bootstrap.php';
+
+require_once 'bootstrap.php';
 require_once UTILS_PATH . 'auth.util.php';
+require_once LAYOUTS_PATH . 'main.layout.php';
 
 // Database checkers
-include_once HANDLERS_PATH . 'mongodbChecker.handler.php';
-include_once HANDLERS_PATH . 'postgreChecker.handler.php';
+$mongoStatus = include HANDLERS_PATH . 'mongodbChecker.handler.php';
+$pgStatus = include HANDLERS_PATH . 'postgreChecker.handler.php';
 
 // Seeder & Migrator
 include_once UTILS_PATH . 'dbMigratePostgresql.util.php';
 include_once UTILS_PATH . 'dbSeederPostgresql.util.php';
-?>
 
-<!DOCTYPE html>
-<html lang="en">
+// Components
+require_once COMPONENTS_PATH . 'dbStatus.component.php';
+require_once COMPONENTS_PATH . 'seederStatus.component.php';
+require_once COMPONENTS_PATH . 'authBlock.component.php';
 
-<head>
-    <meta charset="UTF-8">
-    <title>Dashboard Home</title>
-    <link rel="stylesheet" href="assets/css/styles.css">
-</head>
+$title = "Dashboard Home";
 
-<body>
+renderMainLayout(function () use ($mongoStatus, $pgStatus) {
+    $seederStatus = $GLOBALS['seederStatus'] ?? '<span style="color:red;">❌ Not run</span>';
+    $migrateStatus = $GLOBALS['migrateStatus'] ?? '<span style="color:red;">❌ Not run</span>';
+    $user = Auth::user();
+    ?>
     <div class="container">
         <h1>Welcome to the Dashboard System</h1>
-
-        <div class="status-section">
-            <h3>📊 Database Status</h3>
-            <p><strong>MongoDB:</strong> <?= $mongoStatus ?? '<span style="color:red;">❌ Unchecked</span>' ?></p>
-            <p><strong>PostgreSQL:</strong> <?= $pgStatus ?? '<span style="color:red;">❌ Unchecked</span>' ?></p>
-        </div>
-
-        <div class="status-section">
-            <h3>🛠 Seeder & Migrator Status</h3>
-            <p><strong>Seeder:</strong> <?= $GLOBALS['seederStatus'] ?? '<span style="color:red;">❌ Not run</span>' ?>
-            </p>
-            <p><strong>Migrator:</strong>
-                <?= $GLOBALS['migrateStatus'] ?? '<span style="color:red;">❌ Not run</span>' ?></p>
-        </div>
-
-        <div class="status-section">
-            <?php if (!Auth::check()): ?>
-                <a href="/pages/login/index.php"><button>Login</button></a>
-            <?php else: ?>
-                <?php $user = Auth::user(); ?>
-                <p>👋 Hello, <strong><?= htmlspecialchars($user['first_name']) ?></strong>
-                    (<?= htmlspecialchars($user['role']) ?>)</p>
-                <form method="POST" action="/handlers/logout.handler.php">
-                    <button type="submit">Logout</button>
-                </form>
-            <?php endif; ?>
-        </div>
+        <?php
+        renderDbStatus($mongoStatus, $pgStatus);
+        renderSeederStatus($seederStatus, $migrateStatus);
+        renderAuthBlock($user);
+        ?>
     </div>
-</body>
-
-</html>
+    <?php
+}, $title);
