@@ -6,7 +6,7 @@ return [
         'middle_name' => 'Marie',
         'role' => 'admin',
         'username' => 'alicej',
-        'password' => 'password123', // hash this in seeder
+        'password' => 'password123',
     ],
     [
         'first_name' => 'Bob',
