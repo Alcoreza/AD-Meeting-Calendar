@@ -26,8 +26,8 @@ foreach ([
 }
 
 $modelFiles = [
-    'database/user.model.sql',
-    'database/meeting.model.sql',
+    'database/users.model.sql',
+    'database/meetings.model.sql',
     'database/meeting_users.model.sql',
     'database/tasks.model.sql'
 ];

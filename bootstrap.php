@@ -13,5 +13,10 @@ if (!defined('BOOTSTRAP_PATH'))
     define('BOOTSTRAP_PATH', BASE_PATH . '/bootstrap.php');
 if (!defined('LOGIN_URL'))
     define('LOGIN_URL', '/pages/Login/login.php');
+if (!defined('COMPONENTS_PATH'))
+    define('COMPONENTS_PATH', BASE_PATH . '/components/componentGroup/');
+if (!defined('LAYOUTS_PATH'))
+    define('LAYOUTS_PATH', BASE_PATH . '/layouts/');
+
 chdir(BASE_PATH);
 

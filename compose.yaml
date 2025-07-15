@@ -23,7 +23,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: rootPassword
-      MONGO_INITDB_DATABASE: mydatabase
+      MONGO_INITDB_DATABASE: calendardb
     ports:
       - "27111:27017"
     volumes:
@@ -34,9 +34,9 @@ services:
     container_name: ad-meetingcalendar-postgresql
     restart: always
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: mydatabase
+      POSTGRES_USER: alcoreza
+      POSTGRES_PASSWORD: elmer123
+      POSTGRES_DB: calendardb
     ports:
       - "5112:5432"
     volumes:

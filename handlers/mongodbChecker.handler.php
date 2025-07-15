@@ -10,5 +10,7 @@ try {
 
     $mongoStatus = "✅ Connected to MongoDB successfully.";
 } catch (MongoDB\Driver\Exception\Exception $e) {
-    echo "❌ MongoDB connection failed: " . $e->getMessage() . "  <br>";
+    $mongoStatus = "❌ MongoDB connection failed: " . $e->getMessage() . "  <br>";
 }
+
+return $mongoStatus;

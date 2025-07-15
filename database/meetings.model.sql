@@ -1,11 +1,11 @@
-CREATE TABLE IF NOT EXISTS tasks (
+DROP TABLE IF EXISTS meetings CASCADE;
+CREATE TABLE meetings (
     id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    meeting_id INTEGER NOT NULL REFERENCES meetings(id),
-    assigned_to INTEGER REFERENCES users(id),
     title VARCHAR(255) NOT NULL,
     description TEXT,
-    status VARCHAR(50) DEFAULT 'pending',
-    due_date DATE,
+    schedule TIMESTAMP NOT NULL,
+    location VARCHAR(255),
+    created_by INTEGER NOT NULL REFERENCES users(id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
